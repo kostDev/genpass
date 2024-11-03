@@ -2,6 +2,11 @@
 name = "genpass"
 version = "0.1.0"
 edition = "2021"
+authors = ["Kostya Potapenko <kostyaboy777@gmail.com>"]
+description = "A simple utility to generate random passwords based on a user-specified input"
+
+repository = "https://github.com/kostDev/genpass"
+readme = "README.md"
 
 [dependencies]
 rand = "0.8.5"
