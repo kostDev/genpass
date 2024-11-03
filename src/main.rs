@@ -9,12 +9,35 @@ const SYMBOLS: &str = "#$%^*_-=+~;[<{(:&|@:)}>];~.?!";
 const ARROWS: &str = "→←↑↓↔↕↩↪";
 const MATH_SYMBOLS: &str = "∑∆∞∫∏√≠≈±∂";
 const MOOD_SYMBOLS: &str = "😁😇🙂🙃🥳🤠😎";
-// const DOMI_SYMBOLS: &str = "🁣🁫🁳🁻🂃🂋🂓";
 
 
 const DEFAULT_ARGS: [&str;4] = ["a", "aa", "s", "n"];
 
-fn generate_line(args: &[&str]) -> String {
+fn dfm() {
+    println!(
+        "\n╔════════════════════════════════════════════════════╗\n\
+     ║     Available Symbols for Password Generation      ║\n\
+     ╠════════════════════════════════════════════════════╣\n\
+     ║ a   or lowercase   → abcdefghijklmnopqrstuvwxyz    ║\n\
+     ║ aa  or uppercase   → ABCDEFGHIJKLMNOPQRSTUVWXYZ    ║\n\
+     ║ n   or number      → 0123456789:                   ║\n\
+     ║ s   or symbols     → #$%^*_-=+~;[<(:&|@:)>];~.?!   ║\n\
+     ║ r   or arrows      → →←↑↓↔↕↩↪                      ║\n\
+     ║ m   or math        → ∑∆∞∫∏√≠≈±∂                    ║\n\
+     ║ mm  or mood        → 😁😇🙂🙃🥳🤠😎                ║\n\
+     ╠════════════════════════════════════════════════════╣\n\
+     ║ Examples:                                          ║\n\
+     ║ - Lowercase and uppercase letters:    a aa         ║\n\
+     ║ - Numbers and special symbols:        n s          ║\n\
+     ║ - Math and mood symbols:              m mm         ║\n\
+     ╠════════════════════════════════════════════════════╣\n\
+     ║ You can combine these options to create complex    ║\n\
+     ║ passwords!                                         ║\n\
+     ╚════════════════════════════════════════════════════╝\n"
+    );
+}
+
+fn generate_chars_pool(args: &[&str]) -> String {
     let mut rng = thread_rng();
     let mut list = args.iter().map(|&x| match x {
         "a" | "lower" => LOW_CASE,
@@ -24,7 +47,6 @@ fn generate_line(args: &[&str]) -> String {
         "r" | "arrows" => ARROWS,
         "m" | "math" => MATH_SYMBOLS,
         "mm" | "mood" => MOOD_SYMBOLS,
-        // "dm" | "domi" => DOMI_SYMBOLS,
         custom => custom,
     }).collect::<Vec<&str>>();
 
@@ -32,14 +54,13 @@ fn generate_line(args: &[&str]) -> String {
     list.concat()
 }
 
-fn generate_pass(line: &str, max: usize) -> String {
+fn create_password(pool: &str, n: usize) -> String {
     let mut rng = thread_rng();
-    repeat_with(|| line.chars().choose(&mut rng).unwrap())
-        .take(max)
-        .collect()
+    repeat_with(|| pool.chars().choose(&mut rng).unwrap()).take(n).collect()
 }
 
 fn main() {
+    //dfm();
     let mut input: String = String::new();
     print!(">> ");
     stdout().flush().unwrap();
@@ -56,8 +77,8 @@ fn main() {
         .expect("invalid value for password length!");
 
     let args = &input_items[1..];
-    let line = generate_line(if args.is_empty() { &DEFAULT_ARGS } else { args });
-    let password = generate_pass(&line, password_len);
+    let line = generate_chars_pool(if args.is_empty() { &DEFAULT_ARGS } else { args });
+    let password = create_password(&line, password_len);
 
     println!("Yours generated password[{password_len}]: {password}");
     // println!("Unique generated line: {}", new_line);
