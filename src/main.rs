@@ -1,21 +1,17 @@
 use rand::{seq::{SliceRandom, IteratorRandom}, thread_rng};
 use std::io::{stdout, stdin, Write};
 use std::iter::repeat_with;
-use genpass::consts::{
-    LOW_CASE, UP_CASE, NUMBERS, SYMBOLS, ARROWS, MATH_SYMBOLS, MOOD_SYMBOLS, DEFAULT_ARGS
-};
-use genpass::{ cli::handle_cli };
-
+use genpass::{ consts, cli::handle_cli };
 
 fn create_ch_pool(args: &[&str]) -> String {
     let mut pool = args.iter().map(|&x| match x {
-        "a" | "lower" => LOW_CASE,
-        "aa" | "upper" => UP_CASE,
-        "n" | "nums" => NUMBERS,
-        "s" | "symbols" => SYMBOLS,
-        "r" | "arrows" => ARROWS,
-        "m" | "math" => MATH_SYMBOLS,
-        "mm" | "mood" => MOOD_SYMBOLS,
+        "a" | "lower" => consts::LOW_CASE,
+        "aa" | "upper" => consts::UP_CASE,
+        "n" | "nums" => consts::NUMBERS,
+        "s" | "symbols" => consts::SYMBOLS,
+        "r" | "arrows" => consts::ARROWS,
+        "m" | "math" => consts::MATH_SYMBOLS,
+        "mm" | "mood" => consts::MOOD_SYMBOLS,
         custom => custom,
     }).collect::<Vec<&str>>();
 
@@ -46,7 +42,7 @@ fn main() {
     // first arg always number as password length
     let lens = tokens[0].parse::<usize>().expect("Invalid value for password length!");
     let args = &tokens[1..];
-    let pool = create_ch_pool(if args.is_empty() { &DEFAULT_ARGS } else { args });
+    let pool = create_ch_pool(if args.is_empty() { &consts::DEFAULT_ARGS } else { args });
     let password = create_password(&pool, lens);
 
     println!("Yours generated password[{lens}]: {password}");
