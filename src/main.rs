@@ -1,44 +1,14 @@
 use rand::{seq::{SliceRandom, IteratorRandom}, thread_rng};
-use std::iter::repeat_with;
 use std::io::{stdout, stdin, Write};
+use std::iter::repeat_with;
+use genpass::consts::{
+    LOW_CASE, UP_CASE, NUMBERS, SYMBOLS, ARROWS, MATH_SYMBOLS, MOOD_SYMBOLS, DEFAULT_ARGS
+};
+use genpass::{ cli::handle_cli };
 
-const LOW_CASE: &str = "abcdefghijklmnopqrstuvwxyz";
-const UP_CASE: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const NUMBERS: &str = "0123456789";
-const SYMBOLS: &str = "#$%^*_-=+~;[<{(:&|@:)}>];~.?!";
-const ARROWS: &str = "→←↑↓↔↕↩↪";
-const MATH_SYMBOLS: &str = "∑∆∞∫∏√≠≈±∂";
-const MOOD_SYMBOLS: &str = "😁😇🙂🙃🥳🤠😎";
-
-
-const DEFAULT_ARGS: [&str;4] = ["a", "aa", "s", "n"];
-
-fn dfm() {
-    println!(
-        "\n╔════════════════════════════════════════════════════╗\n\
-     ║     Available Symbols for Password Generation      ║\n\
-     ╠════════════════════════════════════════════════════╣\n\
-     ║ a   or lowercase   → abcdefghijklmnopqrstuvwxyz    ║\n\
-     ║ aa  or uppercase   → ABCDEFGHIJKLMNOPQRSTUVWXYZ    ║\n\
-     ║ n   or number      → 0123456789:                   ║\n\
-     ║ s   or symbols     → #$%^*_-=+~;[<(:&|@:)>];~.?!   ║\n\
-     ║ r   or arrows      → →←↑↓↔↕↩↪                      ║\n\
-     ║ m   or math        → ∑∆∞∫∏√≠≈±∂                    ║\n\
-     ║ mm  or mood        → 😁😇🙂🙃🥳🤠😎                ║\n\
-     ╠════════════════════════════════════════════════════╣\n\
-     ║ Examples:                                          ║\n\
-     ║ - Lowercase and uppercase letters:    a aa         ║\n\
-     ║ - Numbers and special symbols:        n s          ║\n\
-     ║ - Math and mood symbols:              m mm         ║\n\
-     ╠════════════════════════════════════════════════════╣\n\
-     ║ You can combine these options to create complex    ║\n\
-     ║ passwords!                                         ║\n\
-     ╚════════════════════════════════════════════════════╝\n"
-    );
-}
 
 fn create_ch_pool(args: &[&str]) -> String {
-    let mut list = args.iter().map(|&x| match x {
+    let mut pool = args.iter().map(|&x| match x {
         "a" | "lower" => LOW_CASE,
         "aa" | "upper" => UP_CASE,
         "n" | "nums" => NUMBERS,
@@ -49,8 +19,8 @@ fn create_ch_pool(args: &[&str]) -> String {
         custom => custom,
     }).collect::<Vec<&str>>();
 
-    list.shuffle(&mut thread_rng());
-    list.concat()
+    pool.shuffle(&mut thread_rng());
+    pool.concat()
 }
 
 fn create_password(pool: &str, n: usize) -> String {
@@ -60,7 +30,8 @@ fn create_password(pool: &str, n: usize) -> String {
 }
 
 fn main() {
-    //dfm();
+    handle_cli();
+
     let mut input: String = String::new();
     print!(">> ");
     stdout().flush().unwrap();
