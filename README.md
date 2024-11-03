@@ -42,18 +42,20 @@ genpass
 ```
 examples:
 ```text
-------------------------------------------------------------
 example 1: default 'a' 'n' 's'
+
 ➜ genpass
 >> 24 a n s
 Yours generated password[24]: 5=~v;4cv1f;1.8nfto+.+;5@
 ------------------------------------------------------------
 example 2: 'custom user pattern'
+
 ➜ genpass
 >> 24 @#$%^.
 Yours generated password[24]: %@#@@#@.$%@.$$.#^%@@@.@.
 ------------------------------------------------------------
 example 3: combining 
+
 >> 24 a n @_@_@:
 Yours generated password[24]: @t_3d@27lo8gx1c1b2v@@o4d
 ```
