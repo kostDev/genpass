@@ -1,4 +1,4 @@
-# genpass
+# genpass [![Rust](https://github.com/kostDev/genpass/actions/workflows/rust.yml/badge.svg)](https://github.com/kostDev/genpass/actions/workflows/rust.yml)
 
 `genpass` — is a simple utility to generate random passwords based on a user-specified length. The program is built on Rust and provides a quick and convenient way to generate passwords from random characters.
 
