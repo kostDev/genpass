@@ -9,6 +9,7 @@ const SYMBOLS: &str = "#$%^*_-=+~;[<{(:&|@:)}>];~.?!";
 const ARROWS: &str = "→←↑↓↔↕↩↪";
 const MATH_SYMBOLS: &str = "∑∆∞∫∏√≠≈±∂";
 const MOOD_SYMBOLS: &str = "😁😇🙂🙃🥳🤠😎";
+// const DOMI_SYMBOLS: &str = "🁣🁫🁳🁻🂃🂋🂓";
 
 
 const DEFAULT_ARGS: [&str;4] = ["a", "aa", "s", "n"];
@@ -23,6 +24,7 @@ fn generate_line(args: &[&str]) -> String {
         "r" | "arrows" => ARROWS,
         "m" | "math" => MATH_SYMBOLS,
         "mm" | "mood" => MOOD_SYMBOLS,
+        // "dm" | "domi" => DOMI_SYMBOLS,
         custom => custom,
     }).collect::<Vec<&str>>();
 
