@@ -20,7 +20,7 @@
    ```bash
    git clone https://github.com/kostDev/genpass.git
    cd genpass
-   run --package genpass --bin genpass --quiet
+   cargo run --package genpass --bin genpass --quiet
     ```
 
 2. Build the project in release mode:
