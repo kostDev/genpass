@@ -1,21 +1,28 @@
-use rand::{Rng,seq::SliceRandom, thread_rng};
+use rand::{seq::{SliceRandom, IteratorRandom}, thread_rng};
 use std::iter::repeat_with;
 use std::io::{stdout, stdin, Write};
 
 const LOW_CASE: &str = "abcdefghijklmnopqrstuvwxyz";
 const UP_CASE: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const SYMBOLS: &str = "#$%^*_-=+~;[<{(:&|@:)}>];~.?!";
 const NUMBERS: &str = "0123456789";
+const SYMBOLS: &str = "#$%^*_-=+~;[<{(:&|@:)}>];~.?!";
+const ARROWS: &str = "→←↑↓↔↕↩↪";
+const MATH_SYMBOLS: &str = "∑∆∞∫∏√≠≈±∂";
+const MOOD_SYMBOLS: &str = "😁😇🙂🙃🥳🤠😎";
+
 
 const DEFAULT_ARGS: [&str;4] = ["a", "aa", "s", "n"];
 
 fn generate_line(args: &[&str]) -> String {
     let mut rng = thread_rng();
     let mut list = args.iter().map(|&x| match x {
-        "a" => LOW_CASE,
-        "aa" => UP_CASE,
-        "s" => SYMBOLS,
-        "n" => NUMBERS,
+        "a" | "lower" => LOW_CASE,
+        "aa" | "upper" => UP_CASE,
+        "n" | "number" => NUMBERS,
+        "s" | "symbols" => SYMBOLS,
+        "r" | "arrows" => ARROWS,
+        "m" | "math" => MATH_SYMBOLS,
+        "mm" | "mood" => MOOD_SYMBOLS,
         custom => custom,
     }).collect::<Vec<&str>>();
 
@@ -25,7 +32,7 @@ fn generate_line(args: &[&str]) -> String {
 
 fn generate_pass(line: &str, max: usize) -> String {
     let mut rng = thread_rng();
-    repeat_with(|| { line.chars().nth(rng.gen_range(0..line.len())).unwrap() })
+    repeat_with(|| line.chars().choose(&mut rng).unwrap())
         .take(max)
         .collect()
 }
@@ -38,8 +45,8 @@ fn main() {
 
     let input_items = input.split_whitespace().collect::<Vec<&str>>();
 
-    if input_items.len().eq(&0usize) {
-        eprintln!("Empty input!");
+    if input_items.is_empty() {
+        eprintln!("Empty input! Please provide a password length or/and optional character sets.");
         return;
     }
     // first arg always number
@@ -47,13 +54,9 @@ fn main() {
         .expect("invalid value for password length!");
 
     let args = &input_items[1..];
-    let line = match &args.len() {
-        0 => generate_line(&DEFAULT_ARGS), // default
-        _ => generate_line(&args), // custom [ .., .., ... ]
-    };
+    let line = generate_line(if args.is_empty() { &DEFAULT_ARGS } else { args });
     let password = generate_pass(&line, password_len);
 
     println!("Yours generated password[{password_len}]: {password}");
     // println!("Unique generated line: {}", new_line);
-
 }
