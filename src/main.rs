@@ -1,6 +1,8 @@
 use rand::{seq::{SliceRandom, IteratorRandom}, thread_rng};
-use std::io::{stdout, stdin, Write};
-use std::iter::repeat_with;
+use std::{
+    io::{ stdout, stdin, Write },
+    iter::repeat_with
+};
 use genpass::{ consts, cli::handle_cli };
 
 fn create_ch_pool(args: &[&str]) -> String {

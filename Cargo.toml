@@ -20,8 +20,9 @@ path = "src/main.rs"
 rand = "0.8.5"
 
 [profile.release]
+debug = 0
+codegen-units = 1
 opt-level = "z"
 lto = "fat"
-codegen-units = 1
 panic = "abort"
-debug = 0
+strip = true
