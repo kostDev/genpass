@@ -3,7 +3,7 @@ use std::{
     io::{ stdout, stdin, Write },
     iter::repeat_with
 };
-use genpass::{ consts, cli::handle_cli };
+use genpass::{ consts, cli };
 
 fn create_ch_pool(args: &[&str]) -> String {
     let mut pool = args.iter().map(|&x| match x {
@@ -28,7 +28,7 @@ fn create_password(pool: &str, n: usize) -> String {
 }
 
 fn main() {
-    handle_cli();
+    cli::handle_cli();
 
     let mut input: String = String::new();
     print!(">> ");

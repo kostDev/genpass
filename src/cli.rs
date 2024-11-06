@@ -1,6 +1,8 @@
-use super::info::display_help;
-use super::consts::CMD_HELP;
 use std::process::exit;
+use super::{
+    info::display_help,
+    consts::CMD_HELP,
+};
 
 pub fn handle_cli() {
     let _args: Vec<String> = std::env::args().collect();
