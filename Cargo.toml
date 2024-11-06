@@ -8,12 +8,21 @@ description = "A simple utility to generate random passwords based on a user-spe
 repository = "https://github.com/kostDev/genpass"
 readme = "README.md"
 
+[lib]
+name = "genpass"
+path = "src/lib.rs"
+
+[[bin]]
+name = "genpass"
+path = "src/main.rs"
+
 [dependencies]
 rand = "0.8.5"
 
 [profile.release]
+debug = 0
+codegen-units = 1
 opt-level = "z"
 lto = "fat"
-codegen-units = 1
 panic = "abort"
-debug = 0
+strip = true
